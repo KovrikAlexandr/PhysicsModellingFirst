@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 - Запустить проект
 ```bash
-python3 source.main
+python3 -m source.main
 ```
 
 ## Работа со звуком

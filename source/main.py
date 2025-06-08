@@ -1,6 +1,9 @@
+from os.path import exists
+
 from source import filter
 from source import image_filter
 import matplotlib.pyplot as plt
+import os
 
 
 INPUT_FILE="sound/signal.wav"
@@ -15,6 +18,7 @@ CLEANED_IMG="images/cleaned.bmp"
 
 if __name__ == '__main__':
     # Images
+    os.makedirs('images', exist_ok=True)
     image_filter.create_test_image(INPUT_IMG)
     image_filter.noise_image_white_noise(INPUT_IMG, NOISED_IMG)
     image_filter.filter_image(NOISED_IMG, CLEANED_IMG)
