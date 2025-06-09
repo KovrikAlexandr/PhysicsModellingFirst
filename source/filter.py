@@ -26,7 +26,7 @@ def filter_file(input_path, output_path, ax = None):
     sf.write(output_path, cleaned_normalised, rate, subtype='PCM_16')
 
     if ax is not None:
-        ax.plot(cleaned_normalised[:PLOT_LEN])
+        ax.plot(cleaned[:PLOT_LEN])
         ax.grid()
 
 
@@ -60,13 +60,9 @@ def make_noisy(data_float, rate):
 
     # noise = get_random_noise(t, base_amplitude)
     noise = get_white_noise(t, base_amplitude)
-
     noised = data_float + noise
 
-    noised /= np.max(np.abs(noised) + 1e-12)
-    noised_normalised = (noised * INT16_MAX).astype(np.int16)
-
-    return noised_normalised
+    return noised
 
 
 def noise_file(input_path, output_path, ax=None):
@@ -74,7 +70,10 @@ def noise_file(input_path, output_path, ax=None):
     data_float = data.astype(np.float32) / INT16_MAX
 
     noised = make_noisy(data_float, rate)
-    sf.write(output_path, noised, rate, subtype='PCM_16')
+    noised /= np.max(np.abs(noised) + 1e-12)
+
+    noised_int16 = (noised * INT16_MAX).astype(np.int16)
+    sf.write(output_path, noised_int16, rate, subtype='PCM_16')
 
     if ax is not None:
         ax.plot(noised[:PLOT_LEN])
